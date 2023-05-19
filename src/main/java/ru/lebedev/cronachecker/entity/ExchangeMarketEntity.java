@@ -1,10 +1,14 @@
 package ru.lebedev.cronachecker.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -27,16 +31,22 @@ public class ExchangeMarketEntity {
     String code;
     @Column(name = "rate")
     BigDecimal rate;
+    @Column(name = "currency_date")
+    LocalDate currencyDate;
+    @Column(name = "insert_timestamp")
+    LocalDateTime insertTimestamp;
 
     public ExchangeMarketEntity() {
     }
 
-    public ExchangeMarketEntity(String country, String currency, Integer amount, String code, BigDecimal rate) {
+    public ExchangeMarketEntity(String country, String currency, Integer amount, String code, BigDecimal rate, LocalDate currencyDate, LocalDateTime insertTimestamp) {
         this.country = country;
         this.currency = currency;
         this.amount = amount;
         this.code = code;
         this.rate = rate;
+        this.currencyDate = currencyDate;
+        this.insertTimestamp = insertTimestamp;
     }
 
     @Override

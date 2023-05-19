@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +18,15 @@ import static java.util.stream.Collectors.toList;
 
 @UtilityClass
 public class Parser {
-
-    public static final String ADRESS = "https://www.cnb.cz/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/daily.txt?date=";
-    public static final String URL = ADRESS + "05.04.2023";
-
-
-
-    public List<ExchangeMarketEntity> runParse(){
-       return mapLinesToEntity(parseLinesToList(URL));
+    public List<ExchangeMarketEntity> runParse(String url) {
+        var trim = getDateFromUrl(url);
+        return mapLinesToEntity(parseLinesToList(url), trim);
     }
+
     @SneakyThrows
-    private static List<String> parseLinesToList(String urlPath) {
-        java.net.URL url = new URL(urlPath);
-        URLConnection connection = url.openConnection();
+    private static List<String> parseLinesToList(String url) {
+        var urlAdress = new URL(url);
+        URLConnection connection = urlAdress.openConnection();
         var inputStream = connection.getInputStream();
         var lines = new ArrayList<String>();
         try (var bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -40,7 +38,7 @@ public class Parser {
         return lines;
     }
 
-    private static List<ExchangeMarketEntity> mapLinesToEntity(List<String> list) {
+    private static List<ExchangeMarketEntity> mapLinesToEntity(List<String> list, String date) {
         return list.stream()
                 .skip(2)
                 .map(s -> {
@@ -50,8 +48,15 @@ public class Parser {
                             split[1],
                             Integer.parseInt(split[2]),
                             split[3],
-                            new BigDecimal(split[4]));
+                            new BigDecimal(split[4]),
+                            LocalDate.parse(date, DateFormat.FORMATTER),
+                            LocalDateTime.now()
+                    );
                 }).collect(toList());
     }
 
+
+    private static String getDateFromUrl(String url) {
+        return url.substring(url.lastIndexOf('=')).replaceAll("=", "");
+    }
 }

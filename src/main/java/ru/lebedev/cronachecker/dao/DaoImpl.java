@@ -1,16 +1,17 @@
 package ru.lebedev.cronachecker.dao;
 
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.lebedev.cronachecker.entity.ExchangeMarketEntity;
 
 @Repository
 public class DaoImpl implements Dao {
-    private EntityManager entityManager;
+    @PersistenceContext
+    private final EntityManager entityManager;
 
-    @Autowired
+
     public DaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -19,6 +20,5 @@ public class DaoImpl implements Dao {
     @Transactional
     public void save(ExchangeMarketEntity exchangeMarket) {
         entityManager.persist(exchangeMarket);
-
     }
 }
