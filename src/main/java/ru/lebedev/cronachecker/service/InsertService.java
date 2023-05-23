@@ -2,20 +2,22 @@ package ru.lebedev.cronachecker.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.lebedev.cronachecker.dao.DaoImpl;
-import ru.lebedev.cronachecker.util.DateFormat;
-import ru.lebedev.cronachecker.util.Parser;
-
-import java.time.LocalDate;
+import ru.lebedev.cronachecker.dao.DaoExchangeMarketImpl;
+import ru.lebedev.cronachecker.dao.DaoHistoryImpl;
+import ru.lebedev.cronachecker.util.DailyParser;
+import ru.lebedev.cronachecker.util.HistoryParser;
 
 @Service
 public class InsertService {
-    @Value("${http.url}")
-    private String url;
-
-    public void insertExcangeMarket(DaoImpl dao, String url) {
-        var exchangeMarketEntities = Parser.runParse(url);
+    public void insertExcangeMarket(DaoExchangeMarketImpl dao, @Value("${http.url.daily}") String url) {
+        var exchangeMarketEntities = DailyParser.runParse(url);
         exchangeMarketEntities.forEach(dao::save);
     }
+
+    public void insertHistoryExcangeMarket(DaoHistoryImpl dao, @Value("${http.url.history}") String url) {
+        var historyExcangeMarkets = HistoryParser.runParse(url);
+        historyExcangeMarkets.forEach(dao::save);
+    }
+
 
 }

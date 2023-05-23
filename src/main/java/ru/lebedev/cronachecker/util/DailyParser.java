@@ -17,14 +17,14 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @UtilityClass
-public class Parser {
+public class DailyParser {
     public List<ExchangeMarketEntity> runParse(String url) {
-        var trim = getDateFromUrl(url);
-        return mapLinesToEntity(parseLinesToList(url), trim);
+        var dateFromUrl = getDateFromUrl(url);
+        return mapLinesToEntity(parseLinesToList(url), dateFromUrl);
     }
 
     @SneakyThrows
-    private static List<String> parseLinesToList(String url) {
+    public static List<String> parseLinesToList(String url) {
         var urlAdress = new URL(url);
         URLConnection connection = urlAdress.openConnection();
         var inputStream = connection.getInputStream();
@@ -56,7 +56,7 @@ public class Parser {
     }
 
 
-    private static String getDateFromUrl(String url) {
+    public static String getDateFromUrl(String url) {
         return url.substring(url.lastIndexOf('=')).replaceAll("=", "");
     }
 }

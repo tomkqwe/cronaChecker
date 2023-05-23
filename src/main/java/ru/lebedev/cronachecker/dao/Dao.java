@@ -1,7 +1,8 @@
 package ru.lebedev.cronachecker.dao;
 
-import ru.lebedev.cronachecker.entity.ExchangeMarketEntity;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface Dao {
-    void save(ExchangeMarketEntity exchangeMarket);
+public interface Dao<T> {
+    @Transactional
+    void save(T t);
 }

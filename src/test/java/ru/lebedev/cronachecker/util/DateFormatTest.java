@@ -13,8 +13,6 @@ class DateFormatTest {
         var localDate = LocalDate.of(2023, 5, 19);
         var actual = localDate.format(formatter);
         var expected = "19.05.2023";
-
         assertThat(actual).isEqualTo(expected);
     }
-
 }

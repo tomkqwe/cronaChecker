@@ -7,18 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.lebedev.cronachecker.entity.ExchangeMarketEntity;
 
 @Repository
-public class DaoImpl implements Dao {
+public class DaoExchangeMarketImpl implements Dao<ExchangeMarketEntity> {
     @PersistenceContext
     private final EntityManager entityManager;
 
 
-    public DaoImpl(EntityManager entityManager) {
+    public DaoExchangeMarketImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
-    public void save(ExchangeMarketEntity exchangeMarket) {
-        entityManager.persist(exchangeMarket);
+    public void save(ExchangeMarketEntity t) {
+        entityManager.persist(t);
     }
+
 }
