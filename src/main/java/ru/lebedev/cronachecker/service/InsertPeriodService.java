@@ -19,12 +19,12 @@ public class InsertPeriodService {
         this.insertService = insertService;
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(DaoExchangeMarketImpl dao, @Value("${start.date}") String startDate, @Value("${end.date}") String endDate) {
-        return runner -> {
-            insertPeriod(dao, startDate, endDate);
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner(DaoExchangeMarketImpl dao, @Value("${start.date}") String startDate, @Value("${end.date}") String endDate) {
+//        return runner -> {
+//            insertPeriod(dao, startDate, endDate);
+//        };
+//    }
 
     private void insertPeriod(DaoExchangeMarketImpl dao, String startDate, String endDate) {
         var betweenTwoDates = DatesUtil.daysBetweenTwoDates(startDate, endDate);

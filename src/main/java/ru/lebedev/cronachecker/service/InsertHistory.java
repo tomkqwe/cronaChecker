@@ -16,12 +16,12 @@ public class InsertHistory {
         this.insertService = insertService;
     }
 
-    @Bean
-    public ApplicationRunner applicationRunner(DaoHistoryImpl daoHistory, @Value("${http.url.history}") String url, @Value("${year}") String year) {
-        return runner -> {
-            insertService.insertHistoryExcangeMarket(daoHistory, url + year);
-        };
-    }
+//    @Bean
+//    public ApplicationRunner applicationRunner(DaoHistoryImpl daoHistory, @Value("${http.url.history}") String url, @Value("${year}") String year) {
+//        return runner -> {
+//            insertService.insertHistoryExcangeMarket(daoHistory, url + year);
+//        };
+//    }
 
 
 }
