@@ -1,27 +1,27 @@
 package ru.lebedev.cronachecker.service;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import ru.lebedev.cronachecker.dao.DaoHistoryImpl;
 
 @Service
-public class InsertHistory {
+@Getter
+public class InsertHistoryService {
     private final InsertService insertService;
+    @Value("${http.url.history}")
+    private String url;
 
     @Autowired
-    public InsertHistory(InsertService insertService) {
+    public InsertHistoryService(InsertService insertService) {
         this.insertService = insertService;
     }
 
-    @Bean
-    public ApplicationRunner applicationRunner(DaoHistoryImpl daoHistory, @Value("${http.url.history}") String url, @Value("${year}") String year) {
-        return runner -> {
+    public void insertHistory(DaoHistoryImpl daoHistory, String url, String... years) {
+        for (String year : years) {
             insertService.insertHistoryExcangeMarket(daoHistory, url + year);
-        };
+        }
     }
-
 
 }

@@ -31,11 +31,19 @@ public class HistoryParser {
                 .skip(1)
                 .map(entity -> {
                     var split = entity.split("\\|");
+                    var stringIntegerMap = getStringIntegerMap(split);
+                    if (split[0].equals("Date")) {
+                        map.clear();
+                        map.putAll(stringIntegerMap);
+                        return new HistoryExcangeMarketEntity();
+                    }
                     if (map.size() == 33) {
                         return getHistoryExcangeMarketEntity(urlAdress, map, split);
-                    } else {
+                    } else if (map.size() == 31) {
                         return getHistoryExcangeMarketEntityWithOutRubAndHrk(urlAdress, map, split);
-                    }
+                    } else if (map.size() == 32) {
+                        return getHistoryExcangeMarketEntityIn2022WithOutRub(urlAdress, map, split);
+                    } else return new HistoryExcangeMarketEntity();
                 }).collect(toList());
     }
 
@@ -82,6 +90,52 @@ public class HistoryParser {
                 convertToBigDecimal(split[31]).divide(convertToBigDecimal(map.get("usd"))),
                 convertToBigDecimal(split[32]).divide(convertToBigDecimal(map.get("xdr"))),
                 convertToBigDecimal(split[33]).divide(convertToBigDecimal(map.get("zar"))),
+
+                DailyParser.getDateFromUrl(urlAdress),
+                LocalDateTime.now()
+        );
+    }
+
+    @NotNull
+    private static HistoryExcangeMarketEntity getHistoryExcangeMarketEntityIn2022WithOutRub(String urlAdress, Map<String, Integer> map, String[] split) {
+        return new HistoryExcangeMarketEntity(
+                LocalDate.parse(split[0], DateFormat.FORMATTER),
+
+                convertToBigDecimal(split[1]).divide(convertToBigDecimal(map.get("aud"))),
+                convertToBigDecimal(split[2]).divide(convertToBigDecimal(map.get("bgn"))),
+                convertToBigDecimal(split[3]).divide(convertToBigDecimal(map.get("brl"))),
+                convertToBigDecimal(split[4]).divide(convertToBigDecimal(map.get("cad"))),
+                convertToBigDecimal(split[5]).divide(convertToBigDecimal(map.get("chf"))),
+                convertToBigDecimal(split[6]).divide(convertToBigDecimal(map.get("cny"))),
+                convertToBigDecimal(split[7]).divide(convertToBigDecimal(map.get("dkk"))),
+                convertToBigDecimal(split[8]).divide(convertToBigDecimal(map.get("eur"))),
+                convertToBigDecimal(split[9]).divide(convertToBigDecimal(map.get("gbp"))),
+                convertToBigDecimal(split[10]).divide(convertToBigDecimal(map.get("hkd"))),
+
+                convertToBigDecimal(split[11]).divide(convertToBigDecimal(map.get("hrk"))),
+
+                convertToBigDecimal(split[12]).divide(convertToBigDecimal(map.get("huf"))),
+                convertToBigDecimal(split[13]).divide(convertToBigDecimal(map.get("idr"))),
+                convertToBigDecimal(split[14]).divide(convertToBigDecimal(map.get("ils"))),
+                convertToBigDecimal(split[15]).divide(convertToBigDecimal(map.get("inr"))),
+                convertToBigDecimal(split[16]).divide(convertToBigDecimal(map.get("isk"))),
+                convertToBigDecimal(split[17]).divide(convertToBigDecimal(map.get("jpy"))),
+                convertToBigDecimal(split[18]).divide(convertToBigDecimal(map.get("krw"))),
+                convertToBigDecimal(split[19]).divide(convertToBigDecimal(map.get("mxn"))),
+                convertToBigDecimal(split[20]).divide(convertToBigDecimal(map.get("myr"))),
+                convertToBigDecimal(split[21]).divide(convertToBigDecimal(map.get("nok"))),
+                convertToBigDecimal(split[22]).divide(convertToBigDecimal(map.get("nzd"))),
+                convertToBigDecimal(split[23]).divide(convertToBigDecimal(map.get("php"))),
+                convertToBigDecimal(split[24]).divide(convertToBigDecimal(map.get("pln"))),
+                convertToBigDecimal(split[25]).divide(convertToBigDecimal(map.get("ron"))),
+                null,
+                convertToBigDecimal(split[26]).divide(convertToBigDecimal(map.get("sek"))),
+                convertToBigDecimal(split[27]).divide(convertToBigDecimal(map.get("sgd"))),
+                convertToBigDecimal(split[28]).divide(convertToBigDecimal(map.get("thb"))),
+                convertToBigDecimal(split[29]).divide(convertToBigDecimal(map.get("try"))),
+                convertToBigDecimal(split[30]).divide(convertToBigDecimal(map.get("usd"))),
+                convertToBigDecimal(split[31]).divide(convertToBigDecimal(map.get("xdr"))),
+                convertToBigDecimal(split[32]).divide(convertToBigDecimal(map.get("zar"))),
 
                 DailyParser.getDateFromUrl(urlAdress),
                 LocalDateTime.now()

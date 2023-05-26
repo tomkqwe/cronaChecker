@@ -1,25 +1,22 @@
 package ru.lebedev.cronachecker.dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.lebedev.cronachecker.entity.ExchangeMarketEntity;
 
 @Repository
 public class DaoExchangeMarketImpl implements Dao<ExchangeMarketEntity> {
-    @PersistenceContext
-    private final EntityManager entityManager;
-
-
-    public DaoExchangeMarketImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
 
     @Override
-    @Transactional
     public void save(ExchangeMarketEntity t) {
+        var entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         entityManager.persist(t);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
 }
