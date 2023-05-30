@@ -8,6 +8,4 @@ public class CronaCheckerApplication {
     public static void main(String[] args) {
         SpringApplication.run(CronaCheckerApplication.class, args);
     }
-
-
 }
