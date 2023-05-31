@@ -10,16 +10,13 @@ import ru.lebedev.cronachecker.dto.ExchangeMarketDto;
 import ru.lebedev.cronachecker.service.AggregationService;
 import ru.lebedev.cronachecker.service.InsertHistoryService;
 import ru.lebedev.cronachecker.service.InsertPeriodService;
-
 import java.util.List;
-
 @RestController
 public class Controller {
 
     private final AggregationService aggregationService;
     private final InsertPeriodService periodService;
     private final DaoExchangeMarketImpl dao;
-
     private final DaoHistoryImpl daoHistory;
     private final InsertHistoryService historyService;
 
